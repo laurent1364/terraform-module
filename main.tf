@@ -27,7 +27,7 @@ resource "google_sql_user" "users" {
   // Create the database user
   name     = var.username
   instance = var.instance_name
-  password = random_password.password
+  password = random_password.password.result
 }
 
 resource "vault_generic_secret" "example" {
@@ -35,8 +35,8 @@ resource "vault_generic_secret" "example" {
   path      = "secret/lolo"
   data_json = <<EOT
   {
-    "user" = "${var.username}",
-    "password" = "${random_password.password}"
+    "user" : "${var.username}",
+    "password" : "${random_password.password.result}"
   }
   EOT
 }
